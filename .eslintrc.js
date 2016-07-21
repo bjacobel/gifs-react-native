@@ -3,6 +3,7 @@ module.exports = {
     ecmaVersion: 6,
     sourceType: 'module',
     ecmaFeatures: {
+      modules: true,
       jsx: true
     }
   },
@@ -10,10 +11,12 @@ module.exports = {
     es6: true,
     jest: true
   },
-  extends: 'eslint-config-airbnb-base',
+  extends: [
+    'eslint-config-airbnb-base',
+    'plugin:react/recommended'
+  ],
   plugins: [
-    'react',
-    'import'
+    'react'
   ],
   rules: {
     'arrow-body-style': 0,
