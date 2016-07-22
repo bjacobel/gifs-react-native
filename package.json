@@ -9,7 +9,7 @@
     "xcode": "open -a XCode ios/GifsRN.xcodeproj"
   },
   "dependencies": {
-    "aws-sdk-umd": "file:../aws-sdk-umd",
+    "aws-sdk-umd": "0.0.2",
     "react": "15.2.1",
     "react-native": "0.29.2",
     "react-redux": "^4.4.5",
