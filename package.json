@@ -4,16 +4,17 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "simulator": "node node_modules/react-native/local-cli/cli.js run-ios",
     "lint": "eslint .",
     "xcode": "open -a XCode ios/GifsRN.xcodeproj"
   },
   "dependencies": {
+    "aws-sdk-umd": "file:../aws-sdk-umd",
     "react": "15.2.1",
     "react-native": "0.29.2",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
-    "redux-thunk": "^2.1.0",
-    "remote-redux-devtools": "^0.3.4"
+    "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
     "eslint": "^3.1.1",

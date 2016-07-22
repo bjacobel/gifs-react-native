@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import devTools from 'remote-redux-devtools';
 import { createStore, applyMiddleware, compose } from 'redux';
 
 import reducer from './src/reducers';
@@ -13,7 +12,7 @@ const middlewares = [
 ];
 
 if (true) {  // @TODO: Production-ize this
-  middlewares.push(devTools());
+  middlewares.push(global.reduxNativeDevTools ? global.reduxNativeDevTools() : nope => nope);
 }
 
 const composedCreateStore = compose.apply(this, middlewares)(createStore);

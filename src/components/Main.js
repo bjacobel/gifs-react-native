@@ -1,44 +1,38 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { connect } from 'react-redux';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+import { getGifsAsync } from '../actions/gifs';
+import { getTagsAsync } from '../actions/tags';
+import GifList from './GifList';
+
+const mapStateToProps = (state) => {
+  return {
+    gifs: state.gifs,
+    tags: state.tags
+  };
+};
+
+const mapDispatchToProps = {
+  getGifsAsync,
+  getTagsAsync
+};
+
+class Main extends Component {
+  componentDidMount() {
+    this.props.getGifsAsync();
+    this.props.getTagsAsync();
   }
-});
 
-export default class Main extends Component {
   render() {
+    const gifs = this.props.gifs || [];
+
     return (
-      <View style={ styles.container }>
-        <Text style={ styles.welcome }>
-          Welcome to React Native!
-        </Text>
-        <Text style={ styles.instructions }>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={ styles.instructions }>
-          Press Cmd+R to reload,{ '\n' }
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <GifList gifs={ gifs } />
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);
