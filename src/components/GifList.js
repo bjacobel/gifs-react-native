@@ -1,30 +1,57 @@
-import React, { Component, PropTypes } from 'react';
-import { ListView } from 'react-native';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  ListView,
+  View
+} from 'react-native';
 
 import Gif from './Gif';
+import Loading from './Loading';
+import { getGifsAsync } from '../actions/gifs';
+
+const mapStateToProps = (state) => {
+  return {
+    gifs: state.gifs
+  };
+};
+
+const mapDispatchToProps = {
+  getGifsAsync
+};
 
 class GifList extends Component {
-  componentWillMount() {
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    this.setState({ gifsDS: this.ds.cloneWithRows(this.props.gifs) });
+  componentDidMount() {
+    this.props.getGifsAsync();
   }
 
-  componentWillUpdate() {
-    this.setState({ gifsDS: this.ds.cloneWithRows(this.props.gifs) });
-  }
-
-  render() {
+  renderSeperator(sectionID, rowID, adjacentRowHighlighted) {
     return (
-      <ListView
-        dataSource={ this.state.gifsDS }
-        renderRow={ (listEl) => <Gif gif={ listEl } /> }
+      <View
+        key={ `${sectionID}-${rowID}` }
+        style={ {
+          height: adjacentRowHighlighted ? 4 : 1,
+          backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC'
+        } }
       />
     );
   }
+
+  render() {
+    const { gifs } = this.props;
+    if (gifs instanceof ListView.DataSource) {
+      return (
+        <ListView
+          dataSource={ gifs }
+          renderRow={ (listEl) => <Gif gif={ listEl } /> }
+        />
+      );
+    } else {
+      return <Loading />;
+    }
+  }
 }
 
-GifList.propTypes = {
-  gifs: PropTypes.array.isRequired
-};
-
-export default GifList;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GifList);
