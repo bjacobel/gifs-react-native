@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk-umd';
+import AWS from '../../vendor/aws-sdk-umd';
 
 export const BUCKET = 'gifs.bjacobel.com';
 export const REGION = 'us-east-1';
