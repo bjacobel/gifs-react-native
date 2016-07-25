@@ -29,25 +29,39 @@ const styles = StyleSheet.create({
   }
 });
 
+let expandedStyle;
+
 class Gif extends Component {
-  slideOpen() {
-    if (styles.gif.height) {
-      styles.gif.height = 300;
-    } else {
-      styles.gif.height = 100;
-    }
+  constructor() {
+    super();
+
+    this.toggleOpen = () => {
+      if (!this.state.expanded) {
+        this.setState({ expanded: true });
+      } else {
+        this.setState({ expanded: false });
+      }
+    };
+  }
+
+  componentWillMount() {
+    this.setState({ expanded: false });
+    Image.getSize('https://placeholdit.imgix.net/~text?txtsize=50&txt=750%C3%97400&w=750&h=400', (width, height) => {
+      expandedStyle = StyleSheet.create({ height });
+    });
   }
 
   render() {
     const { gif } = this.props;
+    const { expanded } = this.state;
 
-    //${rootURL}${gif.src}
+    const imageURL = 'https://placeholdit.imgix.net/~text?txtsize=50&txt=750%C3%97200&w=750&h=400'; // `${rootURL}${gif.src}`
 
     return (
-      <TouchableHighlight onPress={ this.slideOpen }>
+      <TouchableHighlight onPress={ this.toggleOpen }>
         <Image
-          source={ { uri: 'https://placeholdit.imgix.net/~text?txtsize=50&txt=750%C3%97200&w=750&h=400' } }
-          style={ styles.gif }
+          source={ { uri: imageURL } }
+          style={ expanded ? expandedStyle : styles.gif }
         >
           <View style={ styles.textBackdrop }>
             <Text style={ styles.overlay }>{ gif.src }</Text>
