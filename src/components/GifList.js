@@ -24,18 +24,6 @@ class GifList extends Component {
     this.props.getGifsAsync();
   }
 
-  renderSeperator(sectionID, rowID, adjacentRowHighlighted) {
-    return (
-      <View
-        key={ `${sectionID}-${rowID}` }
-        style={ {
-          height: adjacentRowHighlighted ? 4 : 1,
-          backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC'
-        } }
-      />
-    );
-  }
-
   render() {
     const { gifs } = this.props;
     if (gifs instanceof ListView.DataSource) {
