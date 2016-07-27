@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  ListView,
-  View
-} from 'react-native';
+import { ListView } from 'react-native';
 
 import Gif from './Gif';
 import Loading from './Loading';

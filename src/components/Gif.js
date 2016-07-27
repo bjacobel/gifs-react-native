@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {
   Image,
+  LayoutAnimation,
   Text,
   StyleSheet,
   TouchableHighlight,
@@ -9,10 +10,9 @@ import {
 
 import { rootURL } from '../constants';
 
+const placeholder = 'https://placeholdit.imgix.net/~text?txtsize=50&txt=750%C3%97200&w=750&h=400';
+
 const styles = StyleSheet.create({
-  gif: {
-    height: 100
-  },
   overlay: {
     fontSize: 25,
     fontFamily: 'AppleSDGothicNeo-Bold',
@@ -29,39 +29,27 @@ const styles = StyleSheet.create({
   }
 });
 
-let expandedStyle;
-
 class Gif extends Component {
   constructor() {
     super();
-
-    this.toggleOpen = () => {
-      if (!this.state.expanded) {
-        this.setState({ expanded: true });
-      } else {
-        this.setState({ expanded: false });
-      }
-    };
+    this.state = { slideContainerHeight: 100 };
   }
 
-  componentWillMount() {
-    this.setState({ expanded: false });
-    Image.getSize('https://placeholdit.imgix.net/~text?txtsize=50&txt=750%C3%97400&w=750&h=400', (width, height) => {
-      expandedStyle = StyleSheet.create({ height });
-    });
+  toggleOpen() {
+    LayoutAnimation.easeInEaseOut();
+    const newHeight = this.state.slideContainerHeight === 100 ? 400 : 100;
+    this.setState({ slideContainerHeight: newHeight });
   }
 
   render() {
     const { gif } = this.props;
-    const { expanded } = this.state;
-
-    const imageURL = 'https://placeholdit.imgix.net/~text?txtsize=50&txt=750%C3%97200&w=750&h=400'; // `${rootURL}${gif.src}`
+    const imageURL = placeholder; // `${rootURL}${gif.src}`
 
     return (
-      <TouchableHighlight onPress={ this.toggleOpen }>
+      <TouchableHighlight onPress={ () => this.toggleOpen() }>
         <Image
           source={ { uri: imageURL } }
-          style={ expanded ? expandedStyle : styles.gif }
+          style={ { height: this.state.slideContainerHeight } }
         >
           <View style={ styles.textBackdrop }>
             <Text style={ styles.overlay }>{ gif.src }</Text>
