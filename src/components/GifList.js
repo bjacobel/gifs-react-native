@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListView } from 'react-native';
+import {
+  ListView,
+  LayoutAnimation
+} from 'react-native';
 
 import Gif from './Gif';
 import Loading from './Loading';
-import { getGifsAsync } from '../actions/gifs';
+import {
+  getGifsAsync,
+  setGifActive
+} from '../actions/gifs';
 
 const mapStateToProps = (state) => {
   return {
@@ -13,12 +19,18 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  getGifsAsync
+  getGifsAsync,
+  setGifActive
 };
 
 class GifList extends Component {
   componentDidMount() {
     this.props.getGifsAsync();
+  }
+
+  setActiveWithTransition(id) {
+    LayoutAnimation.easeInEaseOut();
+    this.props.setGifActive(id);
   }
 
   render() {
@@ -27,7 +39,12 @@ class GifList extends Component {
       return (
         <ListView
           dataSource={ gifs }
-          renderRow={ (listEl) => <Gif gif={ listEl } /> }
+          renderRow={ (gif) => (
+            <Gif
+              gif={ gif }
+              toggleFn={ () => this.setActiveWithTransition(gif.id) }
+            />
+          ) }
         />
       );
     } else {

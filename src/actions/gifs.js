@@ -3,6 +3,7 @@ import * as s3 from '../services/s3';
 export const GET_GIFS_REQUESTED = 'GET_GIFS_REQUESTED';
 export const GET_GIFS_FAILED = 'GET_GIFS_FAILED';
 export const GET_GIFS_SUCCEEDED = 'GET_GIFS_SUCCEEDED';
+export const SET_ACTIVE_GIF = 'SET_ACTIVE_GIF';
 
 function getGifsRequested() {
   return { type: GET_GIFS_REQUESTED };
@@ -29,4 +30,8 @@ export function getGifsAsync() {
         dispatch(getGifsFailed(err));
       });
   };
+}
+
+export function setGifActive(id) {
+  return { type: SET_ACTIVE_GIF, payload: { id } };
 }

@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import {
   Image,
-  LayoutAnimation,
-  Text,
   StyleSheet,
+  Text,
   TouchableHighlight,
   View
 } from 'react-native';
@@ -30,26 +29,15 @@ const styles = StyleSheet.create({
 });
 
 class Gif extends Component {
-  constructor() {
-    super();
-    this.state = { slideContainerHeight: 100 };
-  }
-
-  toggleOpen() {
-    LayoutAnimation.easeInEaseOut();
-    const newHeight = this.state.slideContainerHeight === 100 ? 400 : 100;
-    this.setState({ slideContainerHeight: newHeight });
-  }
-
   render() {
-    const { gif } = this.props;
+    const { gif, height, toggleFn } = this.props;
     const imageURL = placeholder; // `${rootURL}${gif.src}`
 
     return (
-      <TouchableHighlight onPress={ () => this.toggleOpen() }>
+      <TouchableHighlight onPress={ () => toggleFn(gif.id) }>
         <Image
           source={ { uri: imageURL } }
-          style={ { height: this.state.slideContainerHeight } }
+          style={ { height } }
         >
           <View style={ styles.textBackdrop }>
             <Text style={ styles.overlay }>{ gif.src }</Text>
@@ -63,7 +51,9 @@ class Gif extends Component {
 Gif.propTypes = {
   gif: PropTypes.shape({
     src: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  toggleFn: PropTypes.func.isRequired,
+  height: PropTypes.number.isRequired
 };
 
 export default Gif;

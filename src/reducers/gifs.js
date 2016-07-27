@@ -38,7 +38,6 @@ export default (state = {}, action) => {
       }
 
       return newState;
-
     default:
       return state;
   }
