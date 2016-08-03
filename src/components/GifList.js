@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 
 import Gif from './Gif';
-import Loading from './Loading';
 import {
   getGifsAsync,
   setGifActive
@@ -14,7 +13,8 @@ import {
 
 const mapStateToProps = (state) => {
   return {
-    gifs: state.gifs
+    gifs: state.gifs,
+    currentlyExpanded: state.currentlyExpanded
   };
 };
 
@@ -35,21 +35,19 @@ class GifList extends Component {
 
   render() {
     const { gifs } = this.props;
-    if (gifs instanceof ListView.DataSource) {
-      return (
-        <ListView
-          dataSource={ gifs }
-          renderRow={ (gif) => (
-            <Gif
-              gif={ gif }
-              toggleFn={ () => this.setActiveWithTransition(gif.id) }
-            />
-          ) }
-        />
-      );
-    } else {
-      return <Loading />;
-    }
+
+    return (
+      <ListView
+        dataSource={ gifs }
+        renderRow={ (gif) => (
+          <Gif
+            gif={ gif }
+            height={ gif.height[gif.height.current] }
+            toggleFn={ () => this.setActiveWithTransition(gif.id) }
+          />
+        ) }
+      />
+    );
   }
 }
 
