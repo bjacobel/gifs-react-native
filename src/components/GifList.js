@@ -1,27 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  ListView,
-  LayoutAnimation,
-} from 'react-native';
+import { ListView } from 'react-native';
 
 import Gif from './Gif';
 import Loading from './Loading';
-import {
-  getGifsAsync,
-  setGifActive,
-} from '../actions/gifs';
+import { getGifsAsync } from '../actions/gifs';
 
 const mapStateToProps = (state) => {
   return {
     gifs: state.gifs,
-    currentlyExpanded: state.currentlyExpanded,
   };
 };
 
 const mapDispatchToProps = {
   getGifsAsync,
-  setGifActive,
 };
 
 class GifList extends Component {
@@ -42,18 +34,9 @@ class GifList extends Component {
   componentWillUpdate(nextProps) {
     if (nextProps.gifs !== this.props.gifs) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(
-          nextProps.gifs.list.map(gif => Object.assign({}, gif, {
-            expanded: gif.id === nextProps.gifs.currentlyExpanded,
-          }))
-        ),
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.gifs),
       });
     }
-  }
-
-  setActiveWithTransition(id) {
-    LayoutAnimation.easeInEaseOut();
-    this.props.setGifActive(id);
   }
 
   render() {
@@ -62,10 +45,7 @@ class GifList extends Component {
         <ListView
           dataSource={ this.state.dataSource }
           renderRow={ (gif) => (
-            <Gif
-              gif={ gif }
-              toggleFn={ () => this.setActiveWithTransition(gif.id) }
-            />
+            <Gif gif={ gif } />
           ) }
         />
       );

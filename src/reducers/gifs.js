@@ -1,18 +1,10 @@
-import {
-  GET_GIFS_SUCCEEDED,
-  SET_ACTIVE_GIF,
-} from '../actions/gifs';
+import { GET_GIFS_SUCCEEDED } from '../actions/gifs';
 import { DEFAULT_CONTAINER_HEIGHT } from '../constants';
 
-export default (state = {}, action) => {
-  const gifs = {
-    list: [],
-    currentlyExpanded: null,
-  };
-
+export default (state = [], action) => {
   switch (action.type) {
     case GET_GIFS_SUCCEEDED:
-      gifs.list = action.payload.gifs.Contents.filter((gif) => {
+      return action.payload.gifs.Contents.filter((gif) => {
         return gif.Key.slice(-4) === '.gif';
       }).map((gif) => {
         return {
@@ -23,7 +15,6 @@ export default (state = {}, action) => {
           height: {
             expanded: null,
             collapsed: DEFAULT_CONTAINER_HEIGHT,
-            current: 'collapsed',
           },
         };
       }).sort((x, y) => {
@@ -34,12 +25,6 @@ export default (state = {}, action) => {
         }
         return 0;
       });
-
-      gifs.currentlyExpanded = null;
-
-      return Object.assign({}, state, gifs);
-    case SET_ACTIVE_GIF:
-      return Object.assign({}, state, { currentlyExpanded: action.payload.id });
     default:
       return state;
   }
