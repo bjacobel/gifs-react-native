@@ -5,7 +5,7 @@ export const getAllTags = () => {
 
   const queryParams = {
     TableName: AWS.DYNAMO_TABLE,
-    ProjectionExpression: 'gif_id,tag,id'
+    ProjectionExpression: 'gif_id,tag,id',
   };
 
   return new Promise((resolve, reject) => {

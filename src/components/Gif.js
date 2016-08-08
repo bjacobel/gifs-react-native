@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
-  View
+  View,
 } from 'react-native';
 
 import { rootURL } from '../constants';
@@ -21,23 +21,23 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 7,
     padding: 7,
-    position: 'absolute'
+    position: 'absolute',
   },
   textBackdrop: {
-    backgroundColor: 'rgba(0,0,0,0)'
-  }
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
 });
 
 class Gif extends Component {
   render() {
-    const { gif, height, toggleFn } = this.props;
+    const { gif, toggleFn } = this.props;
     const imageURL = placeholder; // `${rootURL}${gif.src}`
 
     return (
       <TouchableHighlight onPress={ () => toggleFn(gif.id) }>
         <Image
           source={ { uri: imageURL } }
-          style={ { height } }
+          style={ { height: gif.expanded ? 400 : 100 } }
         >
           <View style={ styles.textBackdrop }>
             <Text style={ styles.overlay }>{ gif.src }</Text>
@@ -50,10 +50,10 @@ class Gif extends Component {
 
 Gif.propTypes = {
   gif: PropTypes.shape({
-    src: PropTypes.string.isRequired
+    src: PropTypes.string.isRequired,
+    expanded: PropTypes.bool.isRequired,
   }).isRequired,
   toggleFn: PropTypes.func.isRequired,
-  height: PropTypes.number.isRequired
 };
 
 export default Gif;

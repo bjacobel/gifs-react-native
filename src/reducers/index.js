@@ -5,5 +5,5 @@ import tags from './tags';
 
 export default combineReducers({
   gifs,
-  tags
+  tags,
 });

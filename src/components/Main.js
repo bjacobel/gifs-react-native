@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   ScrollView,
   StatusBar,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 
 import { getTagsAsync } from '../actions/tags';
@@ -14,13 +14,13 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = {
-  getTagsAsync
+  getTagsAsync,
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: '#212121'
-  }
+    backgroundColor: '#212121',
+  },
 });
 
 class Main extends Component {

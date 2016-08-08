@@ -7,7 +7,7 @@ export const DYNAMO_TABLE = 'gifs';
 
 AWS.config.region = REGION;
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: COGNITO_POOL
+  IdentityPoolId: COGNITO_POOL,
 });
 
 AWS.XML.Parser = AWS.NodeParser;

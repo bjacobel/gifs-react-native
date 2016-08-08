@@ -1,7 +1,7 @@
 import {
   GET_TAGS_SUCCEEDED,
   ADD_TAG_SUCCEEDED,
-  DELETE_TAG_SUCCEEDED
+  DELETE_TAG_SUCCEEDED,
 } from '../actions/tags';
 
 export default (state = {}, action) => {
@@ -13,12 +13,12 @@ export default (state = {}, action) => {
         if (tagMap[tag.gif_id.S]) {
           tagMap[tag.gif_id.S].push({
             text: tag.tag.S,
-            id: tag.id.S
+            id: tag.id.S,
           });
         } else {
           tagMap[tag.gif_id.S] = [{
             text: tag.tag.S,
-            id: tag.id.S
+            id: tag.id.S,
           }];
         }
       });

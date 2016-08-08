@@ -8,7 +8,7 @@ import reducer from './src/reducers';
 import Main from './src/components/Main';
 
 const middlewares = [
-  applyMiddleware(thunk)
+  applyMiddleware(thunk),
 ];
 
 if (true) {  // @TODO: Production-ize this
