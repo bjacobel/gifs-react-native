@@ -49,7 +49,7 @@ class Gif extends Component {
       gif,
     } = this.props;
 
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    LayoutAnimation.configureNext(LayoutAnimation.create(200, LayoutAnimation.Types.easeInEaseOut));
 
     if (gif.id !== currentlyExpanded.id) {
       setGifActive(gif.id);

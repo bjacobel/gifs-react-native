@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListView } from 'react-native';
+import { ListView, LayoutAnimation } from 'react-native';
 
 import Gif from './Gif';
 import Loading from './Loading';
@@ -44,6 +44,7 @@ class GifList extends Component {
       return (
         <ListView
           dataSource={ this.state.dataSource }
+          removeClippedSubviews={ false }
           renderRow={ (gif) => (
             <Gif gif={ gif } />
           ) }
