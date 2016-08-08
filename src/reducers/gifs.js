@@ -1,5 +1,4 @@
 import { GET_GIFS_SUCCEEDED } from '../actions/gifs';
-import { DEFAULT_CONTAINER_HEIGHT } from '../constants';
 
 export default (state = [], action) => {
   switch (action.type) {
@@ -12,10 +11,6 @@ export default (state = [], action) => {
           src: gif.Key,
           date: gif.LastModified,
           size: gif.Size,
-          height: {
-            expanded: null,
-            collapsed: DEFAULT_CONTAINER_HEIGHT,
-          },
         };
       }).sort((x, y) => {
         if (x.date < y.date) {

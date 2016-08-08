@@ -9,7 +9,11 @@ import {
   View,
 } from 'react-native';
 
-import { rootURL } from '../constants';
+import {
+  rootURL,
+  DEFAULT_CONTAINER_HEIGHT,
+  EXPANDED_CONTAINER_HEIGHT,
+} from '../constants';
 import { setGifActive } from '../actions/gifs';
 
 const mapStateToProps = (state) => {
@@ -42,6 +46,11 @@ const styles = StyleSheet.create({
 });
 
 class Gif extends Component {
+  constructor() {
+    super();
+    this.getHeight = this.getHeight.bind(this);
+  }
+
   toggleExpanded() {
     const {
       setGifActive,  // eslint-disable-line no-shadow
@@ -49,12 +58,21 @@ class Gif extends Component {
       gif,
     } = this.props;
 
-    LayoutAnimation.configureNext(LayoutAnimation.create(200, LayoutAnimation.Types.easeInEaseOut));
+    LayoutAnimation.easeInEaseOut();
 
     if (gif.id !== currentlyExpanded.id) {
       setGifActive(gif.id);
     } else {
       setGifActive(null);
+    }
+  }
+
+  getHeight() {
+    const { gif, currentlyExpanded } = this.props;
+    if (currentlyExpanded.id === gif.id) {
+      return EXPANDED_CONTAINER_HEIGHT;
+    } else {
+      return DEFAULT_CONTAINER_HEIGHT;
     }
   }
 
@@ -72,14 +90,15 @@ class Gif extends Component {
   }
 
   render() {
-    const { gif, currentlyExpanded } = this.props;
-    const imageURL = placeholder; // `${rootURL}${gif.src}`
+    const { gif } = this.props;
+    const imageURL = placeholder; // `${rootURL}${gif.src}`;
 
     return (
       <TouchableWithoutFeedback onPress={ () => this.toggleExpanded() }>
         <Image
           source={ { uri: imageURL } }
-          style={ { height: currentlyExpanded.id === gif.id ? 400 : gif.height.collapsed } }
+          style={ { height: this.getHeight() } }
+          resizeMode="cover"
         >
           <View style={ styles.textBackdrop }>
             <Text style={ styles.overlay }>{ gif.src }</Text>
