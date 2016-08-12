@@ -44,6 +44,7 @@ class GifList extends Component {
       return (
         <ListView
           dataSource={ this.state.dataSource }
+          initialListSize={ 10 }
           removeClippedSubviews={ false }
           renderRow={ (gif) => (
             <Gif gif={ gif } />

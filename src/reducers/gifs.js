@@ -7,7 +7,7 @@ export default (state = [], action) => {
         return gif.Key.slice(-4) === '.gif';
       }).map((gif) => {
         return {
-          id: gif.ETag.slice(1, -1),
+          id: `${gif.ETag.slice(1, -1)}-${gif.Key}`,
           src: gif.Key,
           date: gif.LastModified,
           size: gif.Size,

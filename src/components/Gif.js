@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {
+  Dimensions,
   Image,
   LayoutAnimation,
   StyleSheet,
@@ -10,7 +11,8 @@ import {
 } from 'react-native';
 
 import {
-  rootURL,
+  gifURL,
+  thumbURL,
   DEFAULT_CONTAINER_HEIGHT,
   EXPANDED_CONTAINER_HEIGHT,
 } from '../constants';
@@ -25,8 +27,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setGifActive,
 };
-
-const placeholder = 'https://placeholdit.imgix.net/~text?txtsize=50&txt=750%C3%97200&w=750&h=400';
 
 const styles = StyleSheet.create({
   overlay: {
@@ -48,7 +48,21 @@ const styles = StyleSheet.create({
 class Gif extends Component {
   constructor() {
     super();
+    this.getImage = this.getImage.bind(this);
     this.getHeight = this.getHeight.bind(this);
+  }
+
+  componentWillMount() {
+    const { gif } = this.props;
+    Image.getSize(`${thumbURL}${gif.src}`, (width, height) => {
+      this.setState({
+        height: height / (width / Dimensions.get('window').width),
+      });
+    }, () => {
+      this.setState({
+        height: EXPANDED_CONTAINER_HEIGHT,
+      });
+    });
   }
 
   toggleExpanded() {
@@ -70,9 +84,18 @@ class Gif extends Component {
   getHeight() {
     const { gif, currentlyExpanded } = this.props;
     if (currentlyExpanded.id === gif.id) {
-      return EXPANDED_CONTAINER_HEIGHT;
+      return this.state.height;
     } else {
       return DEFAULT_CONTAINER_HEIGHT;
+    }
+  }
+
+  getImage() {
+    const { gif, currentlyExpanded } = this.props;
+    if (currentlyExpanded.id === gif.id) {
+      return `${gifURL}${gif.src}`;
+    } else {
+      return `${thumbURL}${gif.src}`;
     }
   }
 
@@ -91,12 +114,10 @@ class Gif extends Component {
 
   render() {
     const { gif } = this.props;
-    const imageURL = placeholder; // `${rootURL}${gif.src}`;
-
     return (
       <TouchableWithoutFeedback onPress={ () => this.toggleExpanded() }>
         <Image
-          source={ { uri: imageURL } }
+          source={ { uri: this.getImage() } }
           style={ { height: this.getHeight() } }
           resizeMode="cover"
         >
