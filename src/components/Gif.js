@@ -50,19 +50,7 @@ class Gif extends Component {
     super();
     this.getImage = this.getImage.bind(this);
     this.getHeight = this.getHeight.bind(this);
-  }
-
-  componentWillMount() {
-    const { gif } = this.props;
-    Image.getSize(`${thumbURL}${gif.src}`, (width, height) => {
-      this.setState({
-        height: height / (width / Dimensions.get('window').width),
-      });
-    }, () => {
-      this.setState({
-        height: EXPANDED_CONTAINER_HEIGHT,
-      });
-    });
+    this.setHeight = this.setHeight.bind(this);
   }
 
   toggleExpanded() {
@@ -88,6 +76,15 @@ class Gif extends Component {
     } else {
       return DEFAULT_CONTAINER_HEIGHT;
     }
+  }
+
+  setHeight() {
+    const { gif } = this.props;
+    Image.getSize(`${thumbURL}${gif.src}`, (width, height) => {
+      this.setState({
+        height: height / (width / Dimensions.get('window').width),
+      });
+    });
   }
 
   getImage() {
@@ -117,6 +114,7 @@ class Gif extends Component {
     return (
       <TouchableWithoutFeedback onPress={ () => this.toggleExpanded() }>
         <Image
+          onLoad={ this.setHeight }
           source={ { uri: this.getImage() } }
           style={ { height: this.getHeight() } }
           resizeMode="cover"
