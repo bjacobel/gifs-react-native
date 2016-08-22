@@ -111,6 +111,7 @@ class Gif extends Component {
 
   render() {
     const { gif } = this.props;
+
     return (
       <TouchableWithoutFeedback onPress={ () => this.toggleExpanded() }>
         <Image

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ListView, LayoutAnimation } from 'react-native';
+import SGListView from 'react-native-sglistview';
 
 import Gif from './Gif';
 import Loading from './Loading';
@@ -42,7 +43,7 @@ class GifList extends Component {
   render() {
     if (this.state.dataSource instanceof ListView.DataSource) {
       return (
-        <ListView
+        <SGListView
           dataSource={ this.state.dataSource }
           initialListSize={ 10 }
           removeClippedSubviews={ false }
